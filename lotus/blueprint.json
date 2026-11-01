@@ -1,0 +1,18 @@
+{
+	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"meta": {
+		"title": "Arya Jewellers – demo store (lotus, maroon & cream)",
+		"description": "WooCommerce demo for Arya Jewellers on the Kadence theme: daily gold rate pricing, price breakup and sizes.",
+		"author": "Arya Jewellers"
+	},
+	"landingPage": "/",
+	"preferredVersions": { "php": "8.3", "wp": "latest" },
+	"features": { "networking": true },
+	"steps": [
+		{ "step": "unzip", "zipFile": { "resource": "bundled", "path": "arya-lotus-site-part1.zip" }, "extractToPath": "/wordpress" },
+		{ "step": "unzip", "zipFile": { "resource": "bundled", "path": "arya-lotus-site-part2.zip" }, "extractToPath": "/wordpress" },
+		{ "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "woocommerce" }, "options": { "activate": true } },
+		{ "step": "installTheme", "themeData": { "resource": "wordpress.org/themes", "slug": "kadence" }, "options": { "activate": true } },
+		{ "step": "runPHP", "code": "<?php require '/wordpress/wp-load.php'; global $wpdb; $new = untrailingslashit(home_url()); foreach (array('9400', '9401', '9410') as $port) { $wpdb->query($wpdb->prepare('UPDATE ' . $wpdb->postmeta . ' SET meta_value = REPLACE(meta_value, %s, %s) WHERE meta_key = %s', 'http://127.0.0.1:' . $port, $new, '_menu_item_url')); } $wpdb->query($wpdb->prepare('DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE %s', '%transient%')); flush_rewrite_rules(); echo 'Arya demo ready';" }
+	]
+}
