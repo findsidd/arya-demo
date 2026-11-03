@@ -12,8 +12,10 @@
 	"steps": [
 		{ "step": "unzip", "zipFile": { "resource": "bundled", "path": "arya-site-part1.zip" }, "extractToPath": "/wordpress" },
 		{ "step": "unzip", "zipFile": { "resource": "bundled", "path": "arya-site-part2.zip" }, "extractToPath": "/wordpress" },
-		{ "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "woocommerce" }, "options": { "activate": true } },
-		{ "step": "installTheme", "themeData": { "resource": "wordpress.org/themes", "slug": "storefront" }, "options": { "activate": true } },
+		{ "step": "unzip", "zipFile": { "resource": "bundled", "path": "arya-woocommerce.zip" }, "extractToPath": "/wordpress/wp-content" },
+		{ "step": "unzip", "zipFile": { "resource": "bundled", "path": "arya-storefront.zip" }, "extractToPath": "/wordpress/wp-content" },
+		{ "step": "activatePlugin", "pluginPath": "woocommerce/woocommerce.php" },
+		{ "step": "activateTheme", "themeFolderName": "storefront" },
 		{ "step": "runPHP", "code": "<?php require '/wordpress/wp-load.php'; global $wpdb; $new = untrailingslashit(home_url()); foreach (array('9400', '9401', '9410', '9430') as $port) { $wpdb->query($wpdb->prepare('UPDATE ' . $wpdb->postmeta . ' SET meta_value = REPLACE(meta_value, %s, %s) WHERE meta_key = %s', 'http://127.0.0.1:' . $port, $new, '_menu_item_url')); } $wpdb->query($wpdb->prepare('DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE %s', '%transient%')); flush_rewrite_rules(); echo 'Arya demo ready';" }
 	]
 }
