@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Arya star emblem">
+	<!-- Eight-pointed faceted star: long points N/E/S/W, short diagonals; light and dark halves give the cut-gem look. -->
+	<g stroke="#8a6418" stroke-width=".5" stroke-linejoin="round">
+		<g fill="#f3dfa2">
+			<path d="M50 50 L50 4 L42.73 32.45 Z"/>
+			<path d="M50 50 L75.46 24.54 L57.27 32.45 Z"/>
+			<path d="M50 50 L96 50 L67.55 42.73 Z"/>
+			<path d="M50 50 L75.46 75.46 L67.55 57.27 Z"/>
+			<path d="M50 50 L50 96 L57.27 67.55 Z"/>
+			<path d="M50 50 L24.54 75.46 L42.73 67.55 Z"/>
+			<path d="M50 50 L4 50 L32.45 57.27 Z"/>
+			<path d="M50 50 L24.54 24.54 L32.45 42.73 Z"/>
+		</g>
+		<g fill="#b8862b">
+			<path d="M50 50 L50 4 L57.27 32.45 Z"/>
+			<path d="M50 50 L75.46 24.54 L67.55 42.73 Z"/>
+			<path d="M50 50 L96 50 L67.55 57.27 Z"/>
+			<path d="M50 50 L75.46 75.46 L57.27 67.55 Z"/>
+			<path d="M50 50 L50 96 L42.73 67.55 Z"/>
+			<path d="M50 50 L24.54 75.46 L32.45 57.27 Z"/>
+			<path d="M50 50 L4 50 L32.45 42.73 Z"/>
+			<path d="M50 50 L24.54 24.54 L42.73 32.45 Z"/>
+		</g>
+	</g>
+	<circle cx="50" cy="50" r="6.5" fill="#14284b" stroke="#f3dfa2" stroke-width="1.2"/>
+</svg>

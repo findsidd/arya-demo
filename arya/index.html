@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arya – Every gram, honestly priced.</title>
+<meta name="description" content="Arya – gold and silver jewellery priced at today's rate. Demo store.">
+<link rel="icon" type="image/svg+xml" href="arya-star.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+	/* Arya demo: runs the WordPress Playground store out of sight and shows an Arya loading screen until the
+	   shop is ready, so visitors never see Playground's own "Preparing WordPress" screen. */
+	:root { --navy: #14284b; --deep: #0b1830; --gold: #c9a227; --gold-lt: #f3e3b0; }
+	html, body { margin: 0; height: 100%; background: var(--deep); }
+	#store { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; background: #fff; visibility: hidden; }
+	#store.is-ready { visibility: visible; }
+	.loader {
+		position: fixed; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center;
+		padding: 24px 16px; box-sizing: border-box; text-align: center; color: #d5dbe7;
+		background: radial-gradient(ellipse at 50% 40%, #1d3a6e, var(--navy) 55%, var(--deep));
+		font-family: "Source Sans 3", "Source Sans Pro", system-ui, sans-serif; transition: opacity .6s ease;
+	}
+	.loader.is-done { opacity: 0; pointer-events: none; }
+	.loader svg { width: 96px; height: 96px; animation: glint 2.4s ease-in-out infinite; }
+	@keyframes glint { 0%, 100% { transform: scale(1) rotate(0); filter: drop-shadow(0 0 0 rgba(243, 227, 176, 0)); } 50% { transform: scale(1.06) rotate(22.5deg); filter: drop-shadow(0 0 18px rgba(243, 227, 176, .55)); } }
+	.loader__name { margin: 18px 0 4px; font: 700 52px/1 "Cormorant Garamond", Georgia, serif; letter-spacing: .22em; margin-right: -.22em; color: #fff; }
+	.loader__tag { margin: 0 0 32px; font: italic 600 20px/1.2 "Cormorant Garamond", Georgia, serif; color: var(--gold-lt); }
+	.loader__bar { width: min(320px, 80vw); height: 3px; overflow: hidden; border-radius: 3px; background: rgba(255, 255, 255, .15); }
+	.loader__bar span { display: block; width: 40%; height: 100%; border-radius: 3px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-lt), var(--gold), transparent); animation: slide 1.6s ease-in-out infinite; }
+	@keyframes slide { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+	.loader__status { min-height: 1.4em; margin: 18px 0 6px; font-size: 16px; font-weight: 600; color: #eef2fa; }
+	.loader__note { margin: 0; font-size: 14px; color: #aeb8cc; }
+	.loader__note a { color: var(--gold-lt); }
+	@media (prefers-reduced-motion: reduce) { .loader svg, .loader__bar span { animation: none; } .loader__bar span { width: 100%; opacity: .6; } }
+</style>
+</head>
+<body>
+<div class="loader" id="loader" role="status" aria-live="polite">
+	<svg viewBox="0 0 100 100" aria-hidden="true">
+		<g stroke="#8a6418" stroke-width=".5" stroke-linejoin="round">
+			<g fill="#f3dfa2"><path d="M50 50 L50 4 L42.73 32.45 Z"/><path d="M50 50 L75.46 24.54 L57.27 32.45 Z"/><path d="M50 50 L96 50 L67.55 42.73 Z"/><path d="M50 50 L75.46 75.46 L67.55 57.27 Z"/><path d="M50 50 L50 96 L57.27 67.55 Z"/><path d="M50 50 L24.54 75.46 L42.73 67.55 Z"/><path d="M50 50 L4 50 L32.45 57.27 Z"/><path d="M50 50 L24.54 24.54 L32.45 42.73 Z"/></g>
+			<g fill="#b8862b"><path d="M50 50 L50 4 L57.27 32.45 Z"/><path d="M50 50 L75.46 24.54 L67.55 42.73 Z"/><path d="M50 50 L96 50 L67.55 57.27 Z"/><path d="M50 50 L75.46 75.46 L57.27 67.55 Z"/><path d="M50 50 L50 96 L42.73 67.55 Z"/><path d="M50 50 L24.54 75.46 L32.45 57.27 Z"/><path d="M50 50 L4 50 L32.45 42.73 Z"/><path d="M50 50 L24.54 24.54 L42.73 32.45 Z"/></g>
+		</g>
+		<circle cx="50" cy="50" r="6.5" fill="#14284b" stroke="#f3dfa2" stroke-width="1.2"/>
+	</svg>
+	<p class="loader__name">ARYA</p>
+	<p class="loader__tag">Every gram, honestly priced.</p>
+	<div class="loader__bar" aria-hidden="true"><span></span></div>
+	<p class="loader__status" id="status">Opening the Arya store…</p>
+	<p class="loader__note" id="note">The first visit takes about a minute.</p>
+</div>
+<iframe id="store" title="Arya store" allow="clipboard-write"></iframe>
+
+<script type="module">
+	import { startPlaygroundWeb } from 'https://playground.wordpress.net/client/index.js';
+
+	const RAW = 'https://raw.githubusercontent.com/findsidd/arya-demo/main/arya/';
+	const statusEl = document.getElementById('status');
+	const noteEl = document.getElementById('note');
+	const loader = document.getElementById('loader');
+	const iframe = document.getElementById('store');
+
+	// Friendly progress lines while the store is built (the build itself reports no useful wording).
+	const lines = ['Opening the Arya store…', 'Setting today’s gold and silver rates…', 'Arranging the jewellery…', 'Polishing the showcase…', 'Almost ready…'];
+	let i = 0;
+	const ticker = setInterval(() => { if (i < lines.length - 1) statusEl.textContent = lines[++i]; }, 9000);
+
+	try {
+		// The same blueprint as the plain Playground link, with its zip files fetched from GitHub.
+		const blueprint = await (await fetch(RAW + 'blueprint.json', { cache: 'no-store' })).json();
+		for (const step of blueprint.steps) {
+			if (step.zipFile && step.zipFile.resource === 'bundled') {
+				step.zipFile = { resource: 'url', url: RAW + step.zipFile.path };
+			}
+		}
+		const client = await startPlaygroundWeb({
+			iframe,
+			remoteUrl: 'https://playground.wordpress.net/remote.html',
+			blueprint,
+		});
+		await client.goTo('/');
+		// A moment for the home page to paint before the curtain lifts.
+		setTimeout(() => {
+			clearInterval(ticker);
+			iframe.classList.add('is-ready');
+			loader.classList.add('is-done');
+			setTimeout(() => loader.remove(), 700);
+		}, 1200);
+	} catch (err) {
+		clearInterval(ticker);
+		console.error(err);
+		statusEl.textContent = 'Sorry, the store could not open.';
+		noteEl.innerHTML = 'Please reload the page, or <a href="https://playground.wordpress.net/?mode=seamless&amp;login=no&amp;blueprint-url=' + encodeURIComponent(RAW + 'blueprint.json') + '">open the demo here</a>.';
+	}
+</script>
+</body>
+</html>
